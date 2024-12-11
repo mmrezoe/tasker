@@ -1,0 +1,24 @@
+name: ExampleWorkflowWithConcurrency
+usage: "go run main.go -w test-workflow.yaml -v age=20"
+author: Jane Doe
+vars:
+  name: "test"
+  age: ""
+tasks:
+  - name: "Command1"
+    prerequisites: []
+    concurrent: false
+    commands:
+      - "echo '+name {{name}} age {{age}}'"
+  - name: "command2"
+    prerequisites:
+      - "Command1"
+    concurrent: true
+    commands:
+      - "echo 'This command will not run until the first command is run.'"
+  - name: "command3"
+    prerequisites:
+      - "command2"
+    concurrent: false
+    commands:
+      - "echo 'Final command'"
